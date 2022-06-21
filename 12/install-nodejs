@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+# Install will fail if ~/.bashrc does not exist
+touch ~/.bashrc
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
+export NVM_DIR="/root/.nvm"
+ln -s /root/.nvm/nvm.sh /root/.nvm/nvm
+chmod a+rwx "$NVM_DIR/nvm"
+source ~/.bashrc
+export PATH=$PATH:$NVM_DIR
+
+"$NVM_DIR/nvm.sh" install lts/fermium
+nvm alias currently-used default
+nvm alias iojs default
+nvm alias default "$(nvm current)"
+
+npm install -g agentkeepalive --save
+npm install -g npm@6
+npm install -g npm-check-updates
